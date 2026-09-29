@@ -1,9 +1,17 @@
 // Purpose: Screen a catalog item against a RappelConso record without weakening exact identifiers.
 export const FALLBACK_RELATIONS = ["likely_same_product", "possible_match", "unrelated"];
 export function normalizeGtin(value) {
-  const digits = String(value ?? "").replace(/[^0-9]/g, "");
-  if (!digits) return null;
+  if (value == null || value === "") return null;
+  const raw = String(value).trim();
+  if (!raw) return null;
+  if (!/^[0-9 -]+$/.test(raw)) throw new TypeError("GTIN may contain only digits, spaces and hyphens");
+  const digits = raw.replace(/[ -]/g, "");
   if (![8, 12, 13, 14].includes(digits.length)) throw new TypeError("GTIN must contain 8, 12, 13 or 14 digits");
+  let sum = 0;
+  for (let index = digits.length - 2, weight = 3; index >= 0; index -= 1, weight = weight === 3 ? 1 : 3)
+    sum += Number(digits[index]) * weight;
+  if ((10 - sum % 10) % 10 !== Number(digits.at(-1)))
+    throw new TypeError("GTIN has an invalid check digit");
   return digits.padStart(14, "0");
 }
 export function catalogProduct(input) {
