@@ -1,6 +1,6 @@
 {
   "name": "@gbesse/jev-rappel-pro",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Compare des catalogues produits aux rappels RappelConso avec GTIN exact et repli sémantique contrôlé.",
   "type": "module",
   "license": "MIT",
