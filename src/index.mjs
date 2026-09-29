@@ -1,4 +1,4 @@
-// Purpose: Screen a catalog item against a RappelConso record without weakening exact identifiers.
+// Objectif : implémenter la frontière de décision métier propre au dépôt.
 export const FALLBACK_RELATIONS = ["likely_same_product", "possible_match", "unrelated"];
 export function normalizeGtin(value) {
   if (value == null || value === "") return null;

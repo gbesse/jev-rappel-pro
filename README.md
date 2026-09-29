@@ -1,10 +1,12 @@
 # Jev Rappel Pro
 
-**Screen product catalogs against French RappelConso recalls with exact GTIN matching and reviewable semantic fallbacks.**
+**Compare des catalogues produits aux rappels RappelConso avec GTIN exact et repli sémantique contrôlé.**
 
-[![Tests](https://github.com/gbesse/jev-rappel-pro/actions/workflows/test.yml/badge.svg)](https://github.com/gbesse/jev-rappel-pro/actions/workflows/test.yml) [MIT](LICENSE) · Node.js 22+ · Public alpha
+[![Tests](https://github.com/gbesse/jev-rappel-pro/actions/workflows/test.yml/badge.svg)](https://github.com/gbesse/jev-rappel-pro/actions/workflows/test.yml) [MIT](LICENSE) · Node.js 22+ · v0.1.1 · Documentation française
 
-## Try it
+Le moteur repère immédiatement les correspondances ou incompatibilités de GTIN. Lorsque l’un des identifiants manque, Jev compare le nom, la marque et la variante afin de produire un cas de revue.
+
+## Démarrage rapide
 
 ```sh
 git clone https://github.com/gbesse/jev-rappel-pro.git
@@ -13,38 +15,45 @@ npm install
 npm run demo
 ```
 
-The demo uses synthetic records and fixture probabilities. It makes no network call and makes no claim about measured Jev quality.
+La démonstration utilise uniquement des données et probabilités synthétiques. Elle n’effectue aucun appel réseau et ne constitue pas une mesure de qualité de Jev.
 
-## Use the library
+## Utilisation de la bibliothèque
 
-Import the domain functions from `@gbesse/jev-rappel-pro` and provide either `createJevClient()` from the `./jev` export or the offline `createFakeProvider()` test double. The complete runnable path is in `examples/demo.mjs`.
+Importez les fonctions métier depuis `@gbesse/jev-rappel-pro`. Fournissez soit `createJevClient()` depuis l’export `./jev`, soit `createFakeProvider()` pour les tests hors ligne.
 
-## Decision boundary
+Les noms de l’API JavaScript restent stables pour préserver la compatibilité avec les versions précédentes. La documentation, les exemples et les explications destinées aux utilisateurs sont en français.
 
-GTIN-8/12/13/14 values must pass the GS1 check-digit test before exact equality or inequality is resolved in code. Spaces and hyphens are accepted as display separators; malformed identifiers are rejected instead of being treated as exact matches. Jev is called only when at least one GTIN is absent, and every non-unrelated fallback remains a review item. Check-digit validation detects some transcription errors; it does not verify that a GTIN was issued or that two records describe the same physical item.
+## Frontière de décision
 
-## Data provenance
+L’égalité et l’inégalité des GTIN sont résolues dans le code. Jev n’est appelé que lorsqu’au moins un GTIN manque. Toute correspondance sémantique positive reste à vérifier.
 
-The official RappelConso V2 export is ordered by GTIN but explicitly omits products without a GTIN. Its schema and exports remain upstream inputs; this package does not mirror the dataset.
+La question exacte envoyée à Jev est versionnée dans [`src/index.mjs`](src/index.mjs). Les identifiants, dates, calculs, filtres, seuils et transitions d’état restent gérés par du code ordinaire.
 
-Official references:
+## Sources
 
 - [https://www.data.gouv.fr/datasets/rappelconso-v2-produits-tries-par-gtin](https://www.data.gouv.fr/datasets/rappelconso-v2-produits-tries-par-gtin)
 
-Keep upstream attribution, source URLs, retrieval dates and original identifiers with every derived record.
+Conservez l’attribution amont, les identifiants d’origine, les URL de source et les dates de récupération avec chaque enregistrement dérivé.
 
-## Real Jev requests
+## Appels Jev réels
 
-Real requests are opt-in, paid, and sent to `https://api.typesafe.ai/v1/systemone`. The client pins `jev-1.13.0`, validates the returned model and all probabilities, rejects redirects, retries only network failures plus HTTP 429/529, and refuses state above a conservative 24,000-token estimate.
+Les appels réels sont facultatifs et payants. Le client fixe le modèle `jev-1.13.0`, valide l’identité du modèle et toutes les probabilités, refuse les redirections, ne retente que les erreurs réseau et les réponses HTTP 429/529, puis bloque les requêtes dépassant une estimation prudente de 24 000 jetons.
 
 ```sh
 TYPESAFE_API_KEY=... node scripts/live-smoke.mjs
 ```
 
-Never send personal data, secrets, or full unredacted case files. Evaluate representative French labels before operational use.
+N’envoyez jamais de secret, de donnée personnelle ni de dossier sensible non expurgé. Évaluez le comportement sur un jeu représentatif de cas français avant tout usage opérationnel.
 
 ## Validation
 
-`npm run validate` runs syntax checks, strict public-type checks, tests, and the offline demo on Node.js 22 and 24 in CI.
+```sh
+npm run check
+npm run typecheck
+npm test
+npm run demo
+```
 
-Independent project; not affiliated with TypeSafe AI or the French administration. See the [Jev API documentation](https://docs.typesafe.ai/api) and [model limitations](https://docs.typesafe.ai/model-jaggedness/jev-1.13).
+La CI exécute ces vérifications sous Node.js 22 et 24.
+
+Projet indépendant, sans affiliation avec TypeSafe AI ni avec l’administration française. Consultez la [documentation de l’API Jev](https://docs.typesafe.ai/api) et les [limites du modèle](https://docs.typesafe.ai/model-jaggedness/jev-1.13).

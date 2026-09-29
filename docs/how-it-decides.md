@@ -1,5 +1,5 @@
-# How it decides
+# Comment la décision est prise
 
-Exact GTIN equality and inequality are resolved in code. Jev is called only when at least one GTIN is absent, and every non-unrelated fallback remains a review item.
+L’égalité et l’inégalité des GTIN sont résolues dans le code. Jev n’est appelé que lorsqu’au moins un GTIN manque. Toute correspondance sémantique positive reste à vérifier.
 
-The exact questions and criteria are versioned beside the call in [src/index.mjs](../src/index.mjs). Synthetic demo probabilities are illustrative. Calibrate thresholds on representative human labels before operational use.
+La question et les critères exacts sont versionnés dans [`src/index.mjs`](../src/index.mjs). Les probabilités de la démonstration sont synthétiques. Calibrez les seuils de revue sur des cas français annotés et représentatifs avant tout usage opérationnel.
