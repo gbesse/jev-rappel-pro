@@ -2,7 +2,7 @@
 
 **Compare des catalogues produits aux rappels RappelConso avec GTIN exact et repli sémantique contrôlé.**
 
-[![Tests](https://github.com/gbesse/jev-rappel-pro/actions/workflows/test.yml/badge.svg)](https://github.com/gbesse/jev-rappel-pro/actions/workflows/test.yml) [MIT](LICENSE) · Node.js 22+ · v0.1.1 · Documentation française
+[![Tests](https://github.com/gbesse/jev-rappel-pro/actions/workflows/test.yml/badge.svg)](https://github.com/gbesse/jev-rappel-pro/actions/workflows/test.yml) [MIT](LICENSE) · Node.js 22+ · v0.1.2 · Documentation française
 
 Le moteur repère immédiatement les correspondances ou incompatibilités de GTIN. Lorsque l’un des identifiants manque, Jev compare le nom, la marque et la variante afin de produire un cas de revue.
 
@@ -16,6 +16,44 @@ npm run demo
 ```
 
 La démonstration utilise uniquement des données et probabilités synthétiques. Elle n’effectue aucun appel réseau et ne constitue pas une mesure de qualité de Jev.
+
+## Exemple exécutable
+
+Cet exemple détecte un rappel produit par correspondance exacte du GTIN. Il utilise un fournisseur Jev simulé : aucune clé API ni connexion réseau n’est nécessaire. L’assertion intégrée fait échouer la commande si le comportement attendu change.
+
+Le code complet de [`examples/demo.mjs`](examples/demo.mjs) est directement copiable :
+
+```js
+// Objectif : démontrer la frontière de décision sans appel réseau.
+import assert from "node:assert/strict";
+import { assessRecall } from "../src/index.mjs";
+const product = {
+  sku: "CAF-250",
+  name: "Café moulu Arabica 250 g",
+  brand: "Maison Exemple",
+  gtin: "3760000000017",
+};
+const recall = {
+  id: "RC-2026-001",
+  title: "Café moulu Arabica 250 g",
+  brand: "Maison Exemple",
+  gtin: "3760000000017",
+  publishedAt: "2026-09-25",
+  sourceUrl: "https://rappel.conso.gouv.fr/",
+  risk: "Exemple synthétique",
+};
+const resultat = await assessRecall(product, recall);
+assert.equal(resultat.relation, "exact_gtin");
+console.log(JSON.stringify(resultat, null, 2));
+```
+
+Lancez-le avec :
+
+```sh
+npm run demo
+```
+
+Résultat à repérer : `relation: exact_gtin`.
 
 ## Utilisation de la bibliothèque
 
