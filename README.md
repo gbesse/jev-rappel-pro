@@ -21,7 +21,7 @@ Import the domain functions from `@gbesse/jev-rappel-pro` and provide either `cr
 
 ## Decision boundary
 
-Exact GTIN equality and inequality are resolved in code. Jev is called only when at least one GTIN is absent, and every non-unrelated fallback remains a review item.
+GTIN-8/12/13/14 values must pass the GS1 check-digit test before exact equality or inequality is resolved in code. Spaces and hyphens are accepted as display separators; malformed identifiers are rejected instead of being treated as exact matches. Jev is called only when at least one GTIN is absent, and every non-unrelated fallback remains a review item. Check-digit validation detects some transcription errors; it does not verify that a GTIN was issued or that two records describe the same physical item.
 
 ## Data provenance
 
