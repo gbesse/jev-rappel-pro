@@ -2,7 +2,7 @@
 
 **Compare des catalogues produits aux rappels RappelConso avec GTIN exact et repli sémantique contrôlé.**
 
-[![Tests](https://github.com/gbesse/jev-rappel-pro/actions/workflows/test.yml/badge.svg)](https://github.com/gbesse/jev-rappel-pro/actions/workflows/test.yml) [MIT](LICENSE) · Node.js 22+ · v0.1.2 · Documentation française
+[![Tests](https://github.com/gbesse/jev-rappel-pro/actions/workflows/test.yml/badge.svg)](https://github.com/gbesse/jev-rappel-pro/actions/workflows/test.yml) [MIT](LICENSE) · Node.js 22+ · v0.1.3 · Documentation française
 
 Le moteur repère immédiatement les correspondances ou incompatibilités de GTIN. Lorsque l’un des identifiants manque, Jev compare le nom, la marque et la variante afin de produire un cas de revue.
 
@@ -50,10 +50,20 @@ console.log(JSON.stringify(resultat, null, 2));
 Lancez-le avec :
 
 ```sh
-npm run demo
+npm run demo:principal
 ```
 
 Résultat à repérer : `relation: exact_gtin`.
+
+### Cas limite à tester
+
+Deux GTIN valides et différents excluent immédiatement la correspondance. Le code se trouve dans [`examples/cas-limite.mjs`](examples/cas-limite.mjs).
+
+```sh
+npm run demo:limite
+```
+
+Résultat à repérer : `relation: different_gtin · appels Jev: 0`. La commande `npm run demo` exécute les deux exemples.
 
 ## Utilisation de la bibliothèque
 
