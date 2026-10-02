@@ -2,7 +2,7 @@
 
 **Compare des catalogues produits aux rappels RappelConso avec GTIN exact et repli sémantique contrôlé.**
 
-[![Tests](https://github.com/gbesse/jev-rappel-pro/actions/workflows/test.yml/badge.svg)](https://github.com/gbesse/jev-rappel-pro/actions/workflows/test.yml) [MIT](LICENSE) · Node.js 22+ · v0.1.3 · Documentation française
+[![Tests](https://github.com/gbesse/jev-rappel-pro/actions/workflows/test.yml/badge.svg)](https://github.com/gbesse/jev-rappel-pro/actions/workflows/test.yml) [MIT](LICENSE) · Node.js 22+ · v0.1.4 · Documentation française
 
 Le moteur repère immédiatement les correspondances ou incompatibilités de GTIN. Lorsque l’un des identifiants manque, Jev compare le nom, la marque et la variante afin de produire un cas de revue.
 
@@ -92,6 +92,12 @@ TYPESAFE_API_KEY=... node scripts/live-smoke.mjs
 ```
 
 N’envoyez jamais de secret, de donnée personnelle ni de dossier sensible non expurgé. Évaluez le comportement sur un jeu représentatif de cas français avant tout usage opérationnel.
+
+## Parcours comparatif
+
+`npm run demo:parcours` produit un rapport JSON partageable pour **jev-rappel-pro** : le scénario principal et la frontière déterministe. Chaque scénario garde sa sortie propre et échoue si son assertion ne passe plus. Les données et probabilités sont synthétiques ; aucun appel Jev n’est effectué.
+
+Cette vue permet de comparer rapidement les chemins de décision et de choisir quel exemple adapter à vos propres données sourcées.
 
 ## Validation
 
